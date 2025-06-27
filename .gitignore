@@ -85,5 +85,10 @@ Web.Release.config
 web.debug.config
 web.release.config
 
+# Ignore main Web.config (additionally to transforms)
+Web.config
+web.config
+
 # User secrets
 secrets.json
+/Web.config
