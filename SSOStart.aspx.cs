@@ -10,7 +10,7 @@ namespace nSoftwareSAML
         protected void Page_Load( object sender, EventArgs e )
         {
             string ssoACS = WebConfigurationManager.AppSettings[ "sso-acs" ];
-            string ssoApplicationId = WebConfigurationManager.AppSettings[ "sso-applicationid" ];
+            string ssoIssuer = WebConfigurationManager.AppSettings[ "sso-issuer" ];
             string endpoint = WebConfigurationManager.AppSettings[ "sso-endpoint" ];
             string samlRuntimeLicense = WebConfigurationManager.AppSettings[ "saml-runtime-license" ];
             
@@ -31,7 +31,7 @@ namespace nSoftwareSAML
                     acs.Location = ssoACS;
                     acs.BindingType = URIBindings.subPost;
                     saml.ServiceProviderURIs.Add( acs );
-                    saml.SAMLRequestSettings.Issuer = ssoApplicationId;
+                    saml.SAMLRequestSettings.Issuer = ssoIssuer;
                     saml.SAMLRequestSettings.Binding = SAMLBindings.sbHTTPPost;
                     saml.BuildAuthnRequest();
                     string idpUrl = saml.SAMLRequestURL;
