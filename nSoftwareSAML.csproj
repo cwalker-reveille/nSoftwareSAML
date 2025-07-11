@@ -48,10 +48,12 @@
       <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="nsoftware.CloudSSO, Version=24.0.9250.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
-      <HintPath>packages\nsoftware.CloudSSO.24.0.9250\lib\net40\nsoftware.CloudSSO.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Users\Chris\Documents\Cloud SSO 2024 .NET Edition\lib\net40\nsoftware.CloudSSO.dll</HintPath>
     </Reference>
     <Reference Include="nsoftware.CloudSSO.System, Version=24.0.9250.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
-      <HintPath>packages\nsoftware.CloudSSO.24.0.9250\lib\net40\nsoftware.CloudSSO.System.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Users\Chris\Documents\Cloud SSO 2024 .NET Edition\lib\net40\nsoftware.CloudSSO.System.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
