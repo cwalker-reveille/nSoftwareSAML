@@ -31,8 +31,26 @@ namespace nSoftwareSAML
                 {
                     using ( var saml = new SAMLWeb() )
                     {
+                        string ssoACS = WebConfigurationManager.AppSettings[ "sso-acs" ];
+                        string ssoIssuer = WebConfigurationManager.AppSettings[ "sso-issuer" ];
+                        string endpoint = WebConfigurationManager.AppSettings[ "sso-endpoint" ];
                         string samlRuntimeLicense = WebConfigurationManager.AppSettings[ "saml-runtime-license" ];
                         saml.RuntimeLicense = samlRuntimeLicense;
+
+                        saml.OnSAMLResponse += ( s, eventParams ) => { saml.SAMLRequestSettings.Id = eventParams.InResponseTo; };
+
+                        saml.OnLog += ( s, eventParams ) => { Console.WriteLine( $"{eventParams.LogType}: {eventParams.LogLevel}" ); };
+                        saml.Config( "LogLevel=3" );
+
+                        URI acs = new URI();
+                        acs.URIType = SAMLURITypes.sutACS;
+                        acs.Location = ssoACS;
+                        acs.BindingType = URIBindings.subPost;
+                        saml.ServiceProviderURIs.Add( acs );
+
+                        //saml.SAMLResponseInfo.Content = Request.Form.GetValues("SAMLResponse")[0];
+                       // var samlResponse = Request.Form["SAMLResponse"];
+                        saml.SAMLRequestSettings.Issuer = ssoIssuer;
 
                         // Process/validate the SAML response
                         saml.ProcessSAMLResponse();
