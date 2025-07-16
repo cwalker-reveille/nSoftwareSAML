@@ -1,7 +1,9 @@
-﻿using System;
+﻿using nsoftware.CloudSSO;
+using System;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Configuration;
-using nsoftware.CloudSSO;
+using System.Web.Security;
 
 namespace nSoftwareSAML
 {
@@ -51,9 +53,20 @@ namespace nSoftwareSAML
                         //saml.SAMLResponseInfo.Content = Request.Form.GetValues("SAMLResponse")[0];
                        // var samlResponse = Request.Form["SAMLResponse"];
                         saml.SAMLRequestSettings.Issuer = ssoIssuer;
+                        saml.RequestIdentityMetadata(endpoint);
 
                         // Process/validate the SAML response
+                        // equivalent  to 
                         saml.ProcessSAMLResponse();
+                        string nameId = saml.AssertionInfo.SubjectNameId;
+                        string displayName = saml.GetAssertionAttribute( "http://schemas.microsoft.com/identity/claims/displayname" );
+                        string email = saml.GetAssertionAttribute( "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress" );
+
+                        // Set the user for the current context
+                        HttpContext.Current.User = new GenericPrincipal( new GenericIdentity( nameId, "Forms" ), new string[ 0 ] );
+                        
+                        // Optionally set authentication cookie
+                        FormsAuthentication.SetAuthCookie( nameId, true );
 
                         if ( !String.IsNullOrEmpty( saml.RelayState ) )
                             Response.Redirect( saml.RelayState );
