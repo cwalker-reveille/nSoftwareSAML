@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Routing;
@@ -12,10 +13,15 @@ namespace nSoftwareSAML
         {
             // SAML/SSO route
             RouteTable.Routes.MapPageRoute( "SAML_ACS", "sso/acs", "~/SamlAcsHandler.aspx" );
-
+           // ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
         protected void Application_AuthenticateRequest( object sender, EventArgs e )
         {
+            if ( HttpContext.Current.User?.Identity?.IsAuthenticated == true )
+            {
+                // User is authenticated, allow access
+                return;
+            }
             string path = HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath?.ToLowerInvariant();
 
             // Allow SSOStart and SAML ACS endpoint to bypass SSO redirect
